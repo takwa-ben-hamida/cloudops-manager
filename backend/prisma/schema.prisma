@@ -1,0 +1,201 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  DEVOPS
+  VIEWER
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  fullName       String
+  email          String          @unique
+  password       String
+  role           Role            @default(VIEWER)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  projectMembers ProjectMember[]
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  projectMembers ProjectMember[]
+  teams          Team[]
+  environments   Environment[]
+  servers        Server[]
+}
+
+model ProjectMember {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  projectId Int
+  joinedAt  DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+  teams   Team[]
+
+  @@unique([userId, projectId])
+}
+
+model Team {
+  id        Int      @id @default(autoincrement())
+  name      String
+  projectId Int
+  createdAt DateTime @default(now())
+
+  project         Project        @relation(fields: [projectId], references: [id])
+  projectMember   ProjectMember? @relation(fields: [projectMemberId], references: [id])
+  projectMemberId Int?
+
+  @@unique([projectId, name])
+}
+
+model Environment {
+  id        Int      @id @default(autoincrement())
+  name      String
+  projectId Int
+  createdAt DateTime @default(now())
+
+  project      Project       @relation(fields: [projectId], references: [id])
+  applications Application[]
+
+  @@unique([projectId, name])
+}
+
+enum ServerStatus {
+  RUNNING
+  STOPPED
+  MAINTENANCE
+  ERROR
+}
+
+model Server {
+  id        Int          @id @default(autoincrement())
+  name      String
+  provider  String
+  region    String
+  cpu       Int
+  ram       Int
+  storage   Int
+  ipAddress String
+  status    ServerStatus @default(STOPPED)
+
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id])
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+  metrics      Metric[]
+  alertRules   AlertRule[]
+  alerts       Alert[]
+}
+
+enum ApplicationStatus {
+  RUNNING
+  STOPPED
+  DEPLOYING
+  ERROR
+}
+
+model Application {
+  id      Int               @id @default(autoincrement())
+  name    String
+  version String
+  status  ApplicationStatus @default(STOPPED)
+
+  serverId      Int
+  environmentId Int
+
+  server      Server      @relation(fields: [serverId], references: [id])
+  environment Environment @relation(fields: [environmentId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Metric {
+  id Int @id @default(autoincrement())
+
+  cpuUsage  Float
+  ramUsage  Float
+  available Boolean @default(true)
+
+  serverId Int
+  server   Server @relation(fields: [serverId], references: [id])
+
+  recordedAt DateTime @default(now())
+
+  @@index([serverId, recordedAt])
+}
+
+enum MetricType {
+  CPU
+  RAM
+}
+
+model AlertRule {
+  id        Int        @id @default(autoincrement())
+  name      String
+  type      MetricType
+  threshold Float
+  enabled   Boolean    @default(true)
+
+  serverId Int
+  server   Server @relation(fields: [serverId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  alerts    Alert[]
+}
+
+enum AlertSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+enum AlertStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+}
+
+model Alert {
+  id       Int           @id @default(autoincrement())
+  message  String
+  severity AlertSeverity @default(WARNING)
+  status   AlertStatus   @default(OPEN)
+
+  value Float
+
+  serverId Int
+  ruleId   Int
+
+  server Server    @relation(fields: [serverId], references: [id])
+  rule   AlertRule @relation(fields: [ruleId], references: [id])
+
+  createdAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  @@index([serverId, createdAt])
+}

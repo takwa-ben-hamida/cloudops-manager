@@ -1,0 +1,25 @@
+
+# Dependencies
+**/node_modules/
+
+# Environment secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Build files
+**/dist/
+**/.next/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local configuration
+*.tsbuildinfo
