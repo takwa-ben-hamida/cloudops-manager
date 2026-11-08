@@ -1,0 +1,25 @@
+# Dependencies
+**/node_modules/
+
+# Environment secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Build files
+**/dist/
+**/.next/
+
+# Git backup
+**/.git-backup/
+
+# Logs
+*.log
+
+# Local files
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
