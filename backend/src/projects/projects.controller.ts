@@ -33,9 +33,7 @@ export class ProjectsController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.projectsService.findOne(id);
-  }
-
-   
+  } 
 @Patch(':id')
 update(
   @Param('id', ParseIntPipe) id: number,
