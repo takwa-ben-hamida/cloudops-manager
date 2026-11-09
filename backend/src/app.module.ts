@@ -4,6 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { ProjectsModule } from './projects/projects.module';
+import { TeamsModule } from './teams/teams.module';
+import { EnvironmentsModule } from './environments/environments.module';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -18,6 +22,10 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'backend',
     }),
     UsersModule,
+    AuthModule,
+    ProjectsModule,
+    TeamsModule,
+    EnvironmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
