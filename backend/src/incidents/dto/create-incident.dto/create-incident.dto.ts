@@ -1,1 +1,4 @@
-export class CreateIncidentDto {}
+export class CreateIncidentDto {
+  description: string;
+  status: string;
+}
