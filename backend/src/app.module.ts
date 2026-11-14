@@ -8,6 +8,11 @@ import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
 import { TeamsModule } from './teams/teams.module';
 import { EnvironmentsModule } from './environments/environments.module';
+import { ServersModule } from './servers/servers.module';
+import { ApplicationsModule } from './applications/applications.module';
+import { MonitoringModule } from './monitoring/monitoring.module';
+import { AlertsModule } from './alerts/alerts.module';
+import { IncidentsModule } from './incidents/incidents.module';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -26,6 +31,11 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     ProjectsModule,
     TeamsModule,
     EnvironmentsModule,
+    ServersModule,
+    ApplicationsModule,
+    MonitoringModule,
+    AlertsModule,
+    IncidentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
