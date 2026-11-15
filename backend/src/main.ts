@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule, ObserveInstrument } from './app.module';
 
 async function bootstrap() {
@@ -15,6 +16,15 @@ async function bootstrap() {
       transform: true,
     }),
   );
+const config = new DocumentBuilder()
+  .setTitle('CloudOps Manager API')
+  .setDescription('Documentation des APIs CloudOps Manager')
+  .setVersion('1.0')
+  .build();
+
+const document = SwaggerModule.createDocument(app, config);
+
+SwaggerModule.setup('api', app, document);
 
   await app.listen(process.env.PORT ?? 3001);
 }

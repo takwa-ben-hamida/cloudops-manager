@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsNotEmpty,
@@ -5,10 +6,12 @@ import {
 
 export class CreateIncidentDto {
 
+  @ApiProperty({ example: 'Server unavailable' })
   @IsString()
   @IsNotEmpty()
   description: string;
 
+  @ApiProperty({ example: 'OPEN' })
   @IsString()
   @IsNotEmpty()
   status: string;
