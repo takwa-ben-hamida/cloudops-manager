@@ -1,23 +1,24 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
   ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 
 import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('teams')
 export class TeamsController {
-  constructor(
-    private readonly teamsService: TeamsService,
-  ) {}
+  constructor(private readonly teamsService: TeamsService) {}
 
   @Post()
   create(@Body() dto: CreateTeamDto) {
@@ -35,14 +36,15 @@ export class TeamsController {
   }
 
   @Patch(':id')
-update(
-  @Param('id', ParseIntPipe) id: number,
-  @Body() dto: UpdateTeamDto,
-) {
-  return this.teamsService.update(id, dto);
-}
-@Delete(':id')
-remove(@Param('id', ParseIntPipe) id: number) {
-  return this.teamsService.remove(id);
-}
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateTeamDto,
+  ) {
+    return this.teamsService.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.teamsService.remove(id);
+  }
 }

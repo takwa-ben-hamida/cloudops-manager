@@ -1,24 +1,24 @@
-
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
   ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('projects')
 export class ProjectsController {
-  constructor(
-    private readonly projectsService: ProjectsService,
-  ) {}
+  constructor(private readonly projectsService: ProjectsService) {}
 
   @Post()
   create(@Body() dto: CreateProjectDto) {
@@ -33,18 +33,18 @@ export class ProjectsController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.projectsService.findOne(id);
-  } 
-@Patch(':id')
-update(
-  @Param('id', ParseIntPipe) id: number,
-  @Body() dto: UpdateProjectDto,
-) {
-  return this.projectsService.update(id, dto);
-}
+  }
 
-@Delete(':id')
-remove(@Param('id', ParseIntPipe) id: number) {
-  return this.projectsService.remove(id);
-}
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateProjectDto,
+  ) {
+    return this.projectsService.update(id, dto);
+  }
 
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.projectsService.remove(id);
+  }
 }
