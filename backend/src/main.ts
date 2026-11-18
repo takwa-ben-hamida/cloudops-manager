@@ -20,6 +20,7 @@ const config = new DocumentBuilder()
   .setTitle('CloudOps Manager API')
   .setDescription('Documentation des APIs CloudOps Manager')
   .setVersion('1.0')
+  .addBearerAuth()
   .build();
 
 const document = SwaggerModule.createDocument(app, config);

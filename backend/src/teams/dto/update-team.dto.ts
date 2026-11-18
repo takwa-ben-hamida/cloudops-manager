@@ -1,4 +1,4 @@
-
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsInt,
   IsNotEmpty,
@@ -8,11 +8,13 @@ import {
 } from 'class-validator';
 
 export class UpdateTeamDto {
+  @ApiPropertyOptional({ example: 'Equipe DevOps' })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   name?: string;
 
+  @ApiPropertyOptional({ example: 1 })
   @IsOptional()
   @IsInt()
   @IsPositive()
