@@ -15,13 +15,17 @@ import { EnvironmentsService } from './environments.service';
 import { CreateEnvironmentDto } from './dto/create-environment.dto';
 import { UpdateEnvironmentDto } from './dto/update-environment.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../generated/prisma/enums';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('environments')
 export class EnvironmentsController {
   constructor(private readonly environmentsService: EnvironmentsService) {}
 
   @Post()
+  @Roles(Role.ADMIN, Role.DEVOPS)
   create(@Body() dto: CreateEnvironmentDto) {
     return this.environmentsService.create(dto);
   }
@@ -41,6 +45,7 @@ export class EnvironmentsController {
   }
 
   @Patch(':id')
+  @Roles(Role.ADMIN, Role.DEVOPS)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateEnvironmentDto,
@@ -49,6 +54,7 @@ export class EnvironmentsController {
   }
 
   @Delete(':id')
+  @Roles(Role.ADMIN, Role.DEVOPS)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.environmentsService.remove(id);
   }

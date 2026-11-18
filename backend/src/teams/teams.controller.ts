@@ -14,13 +14,17 @@ import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../generated/prisma/enums';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('teams')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
   @Post()
+  @Roles(Role.ADMIN, Role.DEVOPS)
   create(@Body() dto: CreateTeamDto) {
     return this.teamsService.create(dto);
   }
@@ -36,6 +40,7 @@ export class TeamsController {
   }
 
   @Patch(':id')
+  @Roles(Role.ADMIN, Role.DEVOPS)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateTeamDto,
@@ -44,6 +49,7 @@ export class TeamsController {
   }
 
   @Delete(':id')
+  @Roles(Role.ADMIN, Role.DEVOPS)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.teamsService.remove(id);
   }
