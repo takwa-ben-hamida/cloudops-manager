@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { api, ApiError } from '@/lib/api';
 import type { Project } from '@/types/project';
+import ProjectForm, { type ProjectFormValues } from './ProjectForm';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -24,9 +25,21 @@ export default function ProjectsPage() {
       .finally(() => setLoading(false));
   }, []);
 
+    // Créer un projet puis l'ajouter à la liste
+  async function handleCreate(values: ProjectFormValues) {
+    const created = await api.post<Project>('/projects', values);
+    setProjects((previous) => [...previous, created]);
+  }
+
+
   return (
     <main className="mx-auto max-w-4xl p-8">
       <h1 className="mb-6 text-2xl font-bold">Projets</h1>
+            <ProjectForm
+        title="Nouveau projet"
+        submitLabel="Créer"
+        onSubmit={handleCreate}
+      />
 
       {loading && <p>Chargement...</p>}
 
