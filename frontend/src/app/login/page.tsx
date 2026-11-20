@@ -31,7 +31,7 @@ export default function LoginPage() {
       password,
     });
 
-    login(response.access_token);
+    login(response.access_token, response.user);
 
     router.push('/');
   } catch {
