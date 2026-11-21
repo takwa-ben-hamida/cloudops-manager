@@ -8,7 +8,7 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <h1>Dashboard CloudOps</h1>
-      <LogoutButton>Logout</LogoutButton>
+      <LogoutButton />
     </ProtectedRoute>
   );
 }

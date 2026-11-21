@@ -33,7 +33,7 @@ export default function LoginPage() {
 
     login(response.access_token, response.user);
 
-    router.push('/');
+    router.push('/dashboard');
   } catch {
     setError('Email ou mot de passe incorrect');
   }
