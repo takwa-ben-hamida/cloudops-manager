@@ -15,6 +15,22 @@ export type AuthUser = {
   role: string;
 };
 
+
+// ---------- Types Teams et Projects ----------
+
+export type Project = {
+  id: number;
+  name: string;
+};
+
+export type Team = {
+  id: number;
+  name: string;
+  projectId: number;
+  project: Project;
+};
+
+
 // ---------- Gestion du token JWT ----------
 
 export function getToken(): string | null {
@@ -137,3 +153,19 @@ export const api = {
   delete: <T>(path: string) =>
     request<T>(path, { method: 'DELETE' }),
 };
+
+ 
+// ---------- API Teams et Projects ----------
+
+export const getTeams = () => api.get<Team[]>('/teams');
+
+export const createTeam = (data: {
+  name: string;
+  projectId: number;
+}) => api.post<Team>('/teams', data);
+
+export const deleteTeam = (id: number) =>
+  api.delete<Team>(`/teams/${id}`);
+
+export const getProjects = () => api.get<Project[]>('/projects');
+
