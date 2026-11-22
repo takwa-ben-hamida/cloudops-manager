@@ -25,7 +25,7 @@ import { Roles } from '../auth/roles.decorator';
 import { Role } from '../generated/prisma/enums';
 
 @ApiTags('Projects')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
 @ApiResponse({ status: 401, description: 'Token manquant ou invalide' })
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('projects')
