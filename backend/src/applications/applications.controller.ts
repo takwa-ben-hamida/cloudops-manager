@@ -1,15 +1,35 @@
+
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+
+import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dto/create-application.dto/create-application.dto';
 
+import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../generated/prisma/enums';
+
 @ApiTags('Applications')
+@ApiBearerAuth('JWT-auth')
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('applications')
 export class ApplicationsController {
+  constructor(
+    private readonly applicationsService: ApplicationsService,
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -20,12 +40,11 @@ export class ApplicationsController {
     description: 'Liste des applications récupérée avec succès',
   })
   findAll() {
-    return {
-      message: 'Liste des applications',
-    };
+    return this.applicationsService.findAll();
   }
 
   @Post()
+  @Roles(Role.ADMIN, Role.DEVOPS)
   @ApiOperation({
     summary: 'Créer une application',
   })
@@ -37,10 +56,7 @@ export class ApplicationsController {
     status: 400,
     description: 'Données invalides',
   })
-  create(@Body() createApplicationDto: CreateApplicationDto) {
-    return {
-      message: 'Application créée avec succès',
-      data: createApplicationDto,
-    };
+  create(@Body() dto: CreateApplicationDto) {
+    return this.applicationsService.create(dto);
   }
 }

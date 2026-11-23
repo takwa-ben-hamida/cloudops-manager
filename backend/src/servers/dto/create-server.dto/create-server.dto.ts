@@ -1,12 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger';
+
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsString,
   IsNotEmpty,
-  IsNumber,
+  IsInt,
+  IsOptional,
+  IsEnum,
+  Min,
 } from 'class-validator';
 
-export class CreateServerDto {
+import { ServerStatus } from '../../../generated/prisma/enums';
 
+export class CreateServerDto {
   @ApiProperty({ example: 'Web Server 01' })
   @IsString()
   @IsNotEmpty()
@@ -23,15 +28,18 @@ export class CreateServerDto {
   region: string;
 
   @ApiProperty({ example: 4 })
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   cpu: number;
 
   @ApiProperty({ example: 16 })
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   ram: number;
 
   @ApiProperty({ example: 500 })
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   storage: number;
 
   @ApiProperty({ example: '192.168.1.10' })
@@ -39,8 +47,17 @@ export class CreateServerDto {
   @IsNotEmpty()
   ipAddress: string;
 
-  @ApiProperty({ example: 'ACTIVE' })
-  @IsString()
-  @IsNotEmpty()
-  status: string;
+  @ApiProperty({ example: 1, description: 'ID du projet associé' })
+  @IsInt()
+  @Min(1)
+  projectId: number;
+
+  @ApiPropertyOptional({
+    enum: ServerStatus,
+    example: 'RUNNING',
+    default: 'STOPPED',
+  })
+  @IsOptional()
+  @IsEnum(ServerStatus)
+  status?: ServerStatus;
 }

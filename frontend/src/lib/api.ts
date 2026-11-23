@@ -30,6 +30,38 @@ export type Team = {
   project: Project;
 };
 
+// ---------- Types Applications ----------
+
+export type ApplicationStatus =
+  | 'RUNNING'
+  | 'STOPPED'
+  | 'DEPLOYING'
+  | 'ERROR';
+
+export type Application = {
+  id: number;
+  name: string;
+  version: string;
+  status: ApplicationStatus;
+  serverId: number;
+  environmentId: number;
+  server?: {
+    id: number;
+    name: string;
+  };
+  environment?: {
+    id: number;
+    name: string;
+  };
+};
+
+export type CreateApplicationData = {
+  name: string;
+  version: string;
+  serverId: number;
+  environmentId: number;
+  status?: ApplicationStatus;
+};
 
 // ---------- Gestion du token JWT ----------
 
@@ -168,4 +200,13 @@ export const deleteTeam = (id: number) =>
   api.delete<Team>(`/teams/${id}`);
 
 export const getProjects = () => api.get<Project[]>('/projects');
+
+// ---------- API Applications ----------
+
+export const getApplications = () =>
+  api.get<Application[]>('/applications');
+
+export const createApplication = (data: CreateApplicationData) =>
+  api.post<Application>('/applications', data);
+
 
