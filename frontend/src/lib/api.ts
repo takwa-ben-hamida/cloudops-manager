@@ -209,4 +209,33 @@ export const getApplications = () =>
 export const createApplication = (data: CreateApplicationData) =>
   api.post<Application>('/applications', data);
 
+export type ServerStatus =
+  | 'RUNNING'
+  | 'STOPPED'
+  | 'MAINTENANCE'
+  | 'ERROR';
 
+export type Server = {
+  id: number;
+  name: string;
+  provider: string;
+  region: string;
+  cpu: number;
+  ram: number;
+  storage: number;
+  ipAddress: string;
+  status: ServerStatus;
+  projectId: number;
+};
+
+export type Environment = {
+  id: number;
+  name: string;
+  projectId: number;
+};
+
+export const getServers = () =>
+  api.get<Server[]>('/servers');
+
+export const getEnvironments = () =>
+  api.get<Environment[]>('/environments');
