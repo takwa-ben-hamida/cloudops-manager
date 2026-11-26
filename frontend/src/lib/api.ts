@@ -239,3 +239,31 @@ export const getServers = () =>
 
 export const getEnvironments = () =>
   api.get<Environment[]>('/environments');
+
+// ---------- API Monitoring ----------
+
+export type Metric = {
+  id: number;
+  cpuUsage: number;
+  ramUsage: number;
+  available: boolean;
+  serverId: number;
+  recordedAt: string;
+  server?: {
+    id: number;
+    name: string;
+  };
+};
+
+export type CreateMetricData = {
+  cpuUsage: number;
+  ramUsage: number;
+  serverId: number;
+  available?: boolean;
+};
+
+export const getMetrics = () =>
+  api.get<Metric[]>('/monitoring');
+
+export const createMetric = (data: CreateMetricData) =>
+  api.post<Metric>('/monitoring', data);
