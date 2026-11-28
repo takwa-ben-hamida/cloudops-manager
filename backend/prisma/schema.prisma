@@ -196,6 +196,18 @@ model Alert {
 
   createdAt  DateTime  @default(now())
   resolvedAt DateTime?
+  incidents Incident[]
 
   @@index([serverId, createdAt])
+}
+
+model Incident {
+  id          Int      @id @default(autoincrement())
+  description String
+  status      String   @default("OPEN")
+  alertId     Int?
+  alert       Alert?   @relation(fields: [alertId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@index([alertId])
 }

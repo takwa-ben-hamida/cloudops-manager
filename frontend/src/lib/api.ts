@@ -267,3 +267,33 @@ export const getMetrics = () =>
 
 export const createMetric = (data: CreateMetricData) =>
   api.post<Metric>('/monitoring', data);
+
+
+// ---------- API Incidents ----------
+
+export type Incident = {
+  id: number;
+  description: string;
+  status: string;
+  alertId: number | null;
+  createdAt: string;
+  alert?: {
+    id: number;
+    message: string;
+    severity: string;
+    status: string;
+  } | null;
+};
+
+export type CreateIncidentData = {
+  description: string;
+  status?: string;
+  alertId?: number;
+};
+
+export const getIncidents = () =>
+  api.get<Incident[]>('/incidents');
+
+export const createIncident = (data: CreateIncidentData) =>
+  api.post<Incident>('/incidents', data);
+

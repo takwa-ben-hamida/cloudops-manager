@@ -60,7 +60,8 @@ export const ModelName = {
   Application: 'Application',
   Metric: 'Metric',
   AlertRule: 'AlertRule',
-  Alert: 'Alert'
+  Alert: 'Alert',
+  Incident: 'Incident'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -205,6 +206,17 @@ export const AlertScalarFieldEnum = {
 } as const
 
 export type AlertScalarFieldEnum = (typeof AlertScalarFieldEnum)[keyof typeof AlertScalarFieldEnum]
+
+
+export const IncidentScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  status: 'status',
+  alertId: 'alertId',
+  createdAt: 'createdAt'
+} as const
+
+export type IncidentScalarFieldEnum = (typeof IncidentScalarFieldEnum)[keyof typeof IncidentScalarFieldEnum]
 
 
 export const SortOrder = {

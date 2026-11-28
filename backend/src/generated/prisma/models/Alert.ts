@@ -262,6 +262,7 @@ export type AlertWhereInput = {
   resolvedAt?: Prisma.DateTimeNullableFilter<"Alert"> | Date | string | null
   server?: Prisma.XOR<Prisma.ServerScalarRelationFilter, Prisma.ServerWhereInput>
   rule?: Prisma.XOR<Prisma.AlertRuleScalarRelationFilter, Prisma.AlertRuleWhereInput>
+  incidents?: Prisma.IncidentListRelationFilter
 }
 
 export type AlertOrderByWithRelationInput = {
@@ -276,6 +277,7 @@ export type AlertOrderByWithRelationInput = {
   resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   server?: Prisma.ServerOrderByWithRelationInput
   rule?: Prisma.AlertRuleOrderByWithRelationInput
+  incidents?: Prisma.IncidentOrderByRelationAggregateInput
 }
 
 export type AlertWhereUniqueInput = Prisma.AtLeast<{
@@ -293,6 +295,7 @@ export type AlertWhereUniqueInput = Prisma.AtLeast<{
   resolvedAt?: Prisma.DateTimeNullableFilter<"Alert"> | Date | string | null
   server?: Prisma.XOR<Prisma.ServerScalarRelationFilter, Prisma.ServerWhereInput>
   rule?: Prisma.XOR<Prisma.AlertRuleScalarRelationFilter, Prisma.AlertRuleWhereInput>
+  incidents?: Prisma.IncidentListRelationFilter
 }, "id">
 
 export type AlertOrderByWithAggregationInput = {
@@ -336,6 +339,7 @@ export type AlertCreateInput = {
   resolvedAt?: Date | string | null
   server: Prisma.ServerCreateNestedOneWithoutAlertsInput
   rule: Prisma.AlertRuleCreateNestedOneWithoutAlertsInput
+  incidents?: Prisma.IncidentCreateNestedManyWithoutAlertInput
 }
 
 export type AlertUncheckedCreateInput = {
@@ -348,6 +352,7 @@ export type AlertUncheckedCreateInput = {
   ruleId: number
   createdAt?: Date | string
   resolvedAt?: Date | string | null
+  incidents?: Prisma.IncidentUncheckedCreateNestedManyWithoutAlertInput
 }
 
 export type AlertUpdateInput = {
@@ -359,6 +364,7 @@ export type AlertUpdateInput = {
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   server?: Prisma.ServerUpdateOneRequiredWithoutAlertsNestedInput
   rule?: Prisma.AlertRuleUpdateOneRequiredWithoutAlertsNestedInput
+  incidents?: Prisma.IncidentUpdateManyWithoutAlertNestedInput
 }
 
 export type AlertUncheckedUpdateInput = {
@@ -371,6 +377,7 @@ export type AlertUncheckedUpdateInput = {
   ruleId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  incidents?: Prisma.IncidentUncheckedUpdateManyWithoutAlertNestedInput
 }
 
 export type AlertCreateManyInput = {
@@ -464,6 +471,11 @@ export type AlertSumOrderByAggregateInput = {
   value?: Prisma.SortOrder
   serverId?: Prisma.SortOrder
   ruleId?: Prisma.SortOrder
+}
+
+export type AlertNullableScalarRelationFilter = {
+  is?: Prisma.AlertWhereInput | null
+  isNot?: Prisma.AlertWhereInput | null
 }
 
 export type AlertCreateNestedManyWithoutServerInput = {
@@ -562,6 +574,22 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type AlertCreateNestedOneWithoutIncidentsInput = {
+  create?: Prisma.XOR<Prisma.AlertCreateWithoutIncidentsInput, Prisma.AlertUncheckedCreateWithoutIncidentsInput>
+  connectOrCreate?: Prisma.AlertCreateOrConnectWithoutIncidentsInput
+  connect?: Prisma.AlertWhereUniqueInput
+}
+
+export type AlertUpdateOneWithoutIncidentsNestedInput = {
+  create?: Prisma.XOR<Prisma.AlertCreateWithoutIncidentsInput, Prisma.AlertUncheckedCreateWithoutIncidentsInput>
+  connectOrCreate?: Prisma.AlertCreateOrConnectWithoutIncidentsInput
+  upsert?: Prisma.AlertUpsertWithoutIncidentsInput
+  disconnect?: Prisma.AlertWhereInput | boolean
+  delete?: Prisma.AlertWhereInput | boolean
+  connect?: Prisma.AlertWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AlertUpdateToOneWithWhereWithoutIncidentsInput, Prisma.AlertUpdateWithoutIncidentsInput>, Prisma.AlertUncheckedUpdateWithoutIncidentsInput>
+}
+
 export type AlertCreateWithoutServerInput = {
   message: string
   severity?: $Enums.AlertSeverity
@@ -570,6 +598,7 @@ export type AlertCreateWithoutServerInput = {
   createdAt?: Date | string
   resolvedAt?: Date | string | null
   rule: Prisma.AlertRuleCreateNestedOneWithoutAlertsInput
+  incidents?: Prisma.IncidentCreateNestedManyWithoutAlertInput
 }
 
 export type AlertUncheckedCreateWithoutServerInput = {
@@ -581,6 +610,7 @@ export type AlertUncheckedCreateWithoutServerInput = {
   ruleId: number
   createdAt?: Date | string
   resolvedAt?: Date | string | null
+  incidents?: Prisma.IncidentUncheckedCreateNestedManyWithoutAlertInput
 }
 
 export type AlertCreateOrConnectWithoutServerInput = {
@@ -632,6 +662,7 @@ export type AlertCreateWithoutRuleInput = {
   createdAt?: Date | string
   resolvedAt?: Date | string | null
   server: Prisma.ServerCreateNestedOneWithoutAlertsInput
+  incidents?: Prisma.IncidentCreateNestedManyWithoutAlertInput
 }
 
 export type AlertUncheckedCreateWithoutRuleInput = {
@@ -643,6 +674,7 @@ export type AlertUncheckedCreateWithoutRuleInput = {
   serverId: number
   createdAt?: Date | string
   resolvedAt?: Date | string | null
+  incidents?: Prisma.IncidentUncheckedCreateNestedManyWithoutAlertInput
 }
 
 export type AlertCreateOrConnectWithoutRuleInput = {
@@ -671,6 +703,68 @@ export type AlertUpdateManyWithWhereWithoutRuleInput = {
   data: Prisma.XOR<Prisma.AlertUpdateManyMutationInput, Prisma.AlertUncheckedUpdateManyWithoutRuleInput>
 }
 
+export type AlertCreateWithoutIncidentsInput = {
+  message: string
+  severity?: $Enums.AlertSeverity
+  status?: $Enums.AlertStatus
+  value: number
+  createdAt?: Date | string
+  resolvedAt?: Date | string | null
+  server: Prisma.ServerCreateNestedOneWithoutAlertsInput
+  rule: Prisma.AlertRuleCreateNestedOneWithoutAlertsInput
+}
+
+export type AlertUncheckedCreateWithoutIncidentsInput = {
+  id?: number
+  message: string
+  severity?: $Enums.AlertSeverity
+  status?: $Enums.AlertStatus
+  value: number
+  serverId: number
+  ruleId: number
+  createdAt?: Date | string
+  resolvedAt?: Date | string | null
+}
+
+export type AlertCreateOrConnectWithoutIncidentsInput = {
+  where: Prisma.AlertWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlertCreateWithoutIncidentsInput, Prisma.AlertUncheckedCreateWithoutIncidentsInput>
+}
+
+export type AlertUpsertWithoutIncidentsInput = {
+  update: Prisma.XOR<Prisma.AlertUpdateWithoutIncidentsInput, Prisma.AlertUncheckedUpdateWithoutIncidentsInput>
+  create: Prisma.XOR<Prisma.AlertCreateWithoutIncidentsInput, Prisma.AlertUncheckedCreateWithoutIncidentsInput>
+  where?: Prisma.AlertWhereInput
+}
+
+export type AlertUpdateToOneWithWhereWithoutIncidentsInput = {
+  where?: Prisma.AlertWhereInput
+  data: Prisma.XOR<Prisma.AlertUpdateWithoutIncidentsInput, Prisma.AlertUncheckedUpdateWithoutIncidentsInput>
+}
+
+export type AlertUpdateWithoutIncidentsInput = {
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlertSeverityFieldUpdateOperationsInput | $Enums.AlertSeverity
+  status?: Prisma.EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+  value?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  server?: Prisma.ServerUpdateOneRequiredWithoutAlertsNestedInput
+  rule?: Prisma.AlertRuleUpdateOneRequiredWithoutAlertsNestedInput
+}
+
+export type AlertUncheckedUpdateWithoutIncidentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.EnumAlertSeverityFieldUpdateOperationsInput | $Enums.AlertSeverity
+  status?: Prisma.EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+  value?: Prisma.FloatFieldUpdateOperationsInput | number
+  serverId?: Prisma.IntFieldUpdateOperationsInput | number
+  ruleId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type AlertCreateManyServerInput = {
   id?: number
   message: string
@@ -690,6 +784,7 @@ export type AlertUpdateWithoutServerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rule?: Prisma.AlertRuleUpdateOneRequiredWithoutAlertsNestedInput
+  incidents?: Prisma.IncidentUpdateManyWithoutAlertNestedInput
 }
 
 export type AlertUncheckedUpdateWithoutServerInput = {
@@ -701,6 +796,7 @@ export type AlertUncheckedUpdateWithoutServerInput = {
   ruleId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  incidents?: Prisma.IncidentUncheckedUpdateManyWithoutAlertNestedInput
 }
 
 export type AlertUncheckedUpdateManyWithoutServerInput = {
@@ -733,6 +829,7 @@ export type AlertUpdateWithoutRuleInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   server?: Prisma.ServerUpdateOneRequiredWithoutAlertsNestedInput
+  incidents?: Prisma.IncidentUpdateManyWithoutAlertNestedInput
 }
 
 export type AlertUncheckedUpdateWithoutRuleInput = {
@@ -744,6 +841,7 @@ export type AlertUncheckedUpdateWithoutRuleInput = {
   serverId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  incidents?: Prisma.IncidentUncheckedUpdateManyWithoutAlertNestedInput
 }
 
 export type AlertUncheckedUpdateManyWithoutRuleInput = {
@@ -758,6 +856,35 @@ export type AlertUncheckedUpdateManyWithoutRuleInput = {
 }
 
 
+/**
+ * Count Type AlertCountOutputType
+ */
+
+export type AlertCountOutputType = {
+  incidents: number
+}
+
+export type AlertCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  incidents?: boolean | AlertCountOutputTypeCountIncidentsArgs
+}
+
+/**
+ * AlertCountOutputType without action
+ */
+export type AlertCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlertCountOutputType
+   */
+  select?: Prisma.AlertCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AlertCountOutputType without action
+ */
+export type AlertCountOutputTypeCountIncidentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.IncidentWhereInput
+}
+
 
 export type AlertSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -771,6 +898,8 @@ export type AlertSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   resolvedAt?: boolean
   server?: boolean | Prisma.ServerDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.AlertRuleDefaultArgs<ExtArgs>
+  incidents?: boolean | Prisma.Alert$incidentsArgs<ExtArgs>
+  _count?: boolean | Prisma.AlertCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["alert"]>
 
 export type AlertSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -817,6 +946,8 @@ export type AlertOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 export type AlertInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   server?: boolean | Prisma.ServerDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.AlertRuleDefaultArgs<ExtArgs>
+  incidents?: boolean | Prisma.Alert$incidentsArgs<ExtArgs>
+  _count?: boolean | Prisma.AlertCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AlertIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   server?: boolean | Prisma.ServerDefaultArgs<ExtArgs>
@@ -832,6 +963,7 @@ export type $AlertPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   objects: {
     server: Prisma.$ServerPayload<ExtArgs>
     rule: Prisma.$AlertRulePayload<ExtArgs>
+    incidents: Prisma.$IncidentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1239,6 +1371,7 @@ export interface Prisma__AlertClient<T, Null = never, ExtArgs extends runtime.Ty
   readonly [Symbol.toStringTag]: "PrismaPromise"
   server<T extends Prisma.ServerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServerDefaultArgs<ExtArgs>>): Prisma.Prisma__ServerClient<runtime.Types.Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   rule<T extends Prisma.AlertRuleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlertRuleDefaultArgs<ExtArgs>>): Prisma.Prisma__AlertRuleClient<runtime.Types.Result.GetResult<Prisma.$AlertRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  incidents<T extends Prisma.Alert$incidentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Alert$incidentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncidentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1675,6 +1808,30 @@ export type AlertDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Alerts to delete.
    */
   limit?: number
+}
+
+/**
+ * Alert.incidents
+ */
+export type Alert$incidentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Incident
+   */
+  select?: Prisma.IncidentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Incident
+   */
+  omit?: Prisma.IncidentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.IncidentInclude<ExtArgs> | null
+  where?: Prisma.IncidentWhereInput
+  orderBy?: Prisma.IncidentOrderByWithRelationInput | Prisma.IncidentOrderByWithRelationInput[]
+  cursor?: Prisma.IncidentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.IncidentScalarFieldEnum | Prisma.IncidentScalarFieldEnum[]
 }
 
 /**

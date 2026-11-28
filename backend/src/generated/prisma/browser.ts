@@ -67,3 +67,8 @@ export type AlertRule = Prisma.AlertRuleModel
  * 
  */
 export type Alert = Prisma.AlertModel
+/**
+ * Model Incident
+ * 
+ */
+export type Incident = Prisma.IncidentModel
